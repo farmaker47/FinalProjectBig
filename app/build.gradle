@@ -14,6 +14,8 @@ android {
     compileSdkVersion 26
     buildToolsVersion "26.0.3"
 
+    flavorDimensions "default"
+
     defaultConfig {
         applicationId "com.udacity.gradle.builditbigger"
         minSdkVersion 16
@@ -29,6 +31,17 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    productFlavors {
+        free {
+            dimension "default"
+            applicationId 'com.udacity.gradle.builditbigger.free'
+        }
+        paid {
+            dimension "default"
+            applicationId 'com.udacity.gradle.builditbigger.paid'
         }
     }
 }

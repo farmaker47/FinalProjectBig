@@ -9,11 +9,6 @@ public class MyBean {
 
     private String myData;
 
-
-    /*public MyBean() {
-        jokesClass = new JokesClass();
-    }*/
-
     public String getData() {
         return myData;
     }
