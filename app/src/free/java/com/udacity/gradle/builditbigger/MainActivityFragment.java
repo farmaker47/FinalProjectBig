@@ -1,5 +1,7 @@
 package com.udacity.gradle.builditbigger;
 
+import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -26,6 +28,8 @@ public class MainActivityFragment extends Fragment {
     //from https://developers.google.com/admob/android/interstitial
     private InterstitialAd mInterstitialAd;
     private Button buttonForJoke;
+    private OnFragmentADSInteractionListener mListener;
+    private static final String ADS_LISTENER = "ads_listener";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,7 +60,7 @@ public class MainActivityFragment extends Fragment {
                 if (mInterstitialAd.isLoaded()) {
                     mInterstitialAd.show();
                 } else {
-                    Log.d("TAG", "The interstitial wasn't loaded yet.");
+                    Log.e("TAG", "The interstitial wasn't loaded yet.");
                 }
             }
         });
@@ -64,11 +68,43 @@ public class MainActivityFragment extends Fragment {
         mInterstitialAd.setAdListener(new AdListener(){
             @Override
             public void onAdClosed() {
-                super.onAdClosed();
+                mListener.onFragmentInteraction(ADS_LISTENER);
             }
         });
 
 
         return root;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof TestFragment.OnFragmentInteractionListener) {
+            mListener = (OnFragmentADSInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     * <p>
+     * See the Android Training lesson <a href=
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
+     */
+    public interface OnFragmentADSInteractionListener {
+        // TODO: Update argument type and name
+        void onFragmentInteraction(String string);
     }
 }

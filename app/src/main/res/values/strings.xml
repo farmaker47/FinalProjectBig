@@ -3,4 +3,7 @@
     <string name="instructions">Press the button for a delicious joke!</string>
     <string name="button_text">Tell Joke</string>
     <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

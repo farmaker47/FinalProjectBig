@@ -24,9 +24,10 @@ import com.udacity.gradle.builditbigger.backend.myApi.model.MyBean;
 import java.io.IOException;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MainActivityFragment.OnFragmentADSInteractionListener {
 
     public static final String JOKE_FROM_JAVA = "joke_from_java";
+    private static final String ADS_LISTENER = "ads_listener";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +68,14 @@ public class MainActivity extends AppCompatActivity {
         new EndpointsAsyncTask().execute(new Pair<Context, String>(this, " "));
     }
 
+    @Override
+    public void onFragmentInteraction(String string) {
+        if (string.equals(ADS_LISTENER)) {
+            new EndpointsAsyncTask().execute(new Pair<Context, String>(this, " "));
+        }
+    }
+
+
     class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, String> {
         private MyApi myApiService = null;
         private Context context;
@@ -74,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(Pair<Context, String>... params) {
-            if(myApiService == null) {  // Only do this once
+            if (myApiService == null) {  // Only do this once
                 MyApi.Builder builder = new MyApi.Builder(AndroidHttp.newCompatibleTransport(),
                         new AndroidJsonFactory(), null)
                         // options for running against local devappserver
@@ -108,11 +117,11 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             Toast.makeText(context, result, Toast.LENGTH_LONG).show();
-            Log.e("StringApi",result);
+            Log.e("StringApi", result);
 
             //
             Intent intent = new Intent(MainActivity.this, AndroidLibraryMainActivity.class);
-            intent.putExtra(JOKE_FROM_JAVA,result);
+            intent.putExtra(JOKE_FROM_JAVA, result);
             startActivity(intent);
         }
     }
