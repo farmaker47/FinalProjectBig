@@ -79,7 +79,7 @@ public class MainActivityFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof TestFragment.OnFragmentInteractionListener) {
+        if (context instanceof OnFragmentADSInteractionListener) {
             mListener = (OnFragmentADSInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
