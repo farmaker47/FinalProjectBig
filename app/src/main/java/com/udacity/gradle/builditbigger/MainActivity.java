@@ -29,7 +29,6 @@ import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final String JOKE_FROM_JAVA = "joke_from_java";
     private static final String ADS_LISTENER = "ads_listener";
     private static final String NUMBER_OF_RECEIVER = "close_adv_tell_joke";
     private BroadcastReceiver mBroadcastReceiver;
@@ -52,12 +51,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         unregisterReceiver(mBroadcastReceiver);
+        progressBar.setVisibility(View.INVISIBLE);
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         registerReceiver(mBroadcastReceiver, mFilter);
+
     }
 
     //receive from paid flavor
@@ -98,61 +100,64 @@ public class MainActivity extends AppCompatActivity {
 
     public void tellJoke() {
 
-        new EndpointsAsyncTask().execute(new Pair<Context, String>(this, " "));
+        new EndpointsAsyncTask(this," ").execute(new Pair<Context, String>(this, " "));
         Log.e("call","call");
 
     }
 
+}
 
-    class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, String> {
-        private MyApi myApiService = null;
-        private Context context;
-        private MyBean myBean;
+class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, String> {
+    private MyApi myApiService = null;
+    private Context contexT;
+    private MyBean myBean;
+    public static final String JOKE_FROM_JAVA = "joke_from_java";
+    public EndpointsAsyncTask(Context context,String string) {
+        contexT = context;
+    }
 
-        @Override
-        protected String doInBackground(Pair<Context, String>... params) {
-            if (myApiService == null) {  // Only do this once
-                MyApi.Builder builder = new MyApi.Builder(AndroidHttp.newCompatibleTransport(),
-                        new AndroidJsonFactory(), null)
-                        // options for running against local devappserver
-                        // - 10.0.2.2 is localhost's IP address in Android emulator
-                        // - turn off compression when running against local devappserver
-                        .setRootUrl("http://10.0.2.2:8080/_ah/api/")
-                        .setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
-                            @Override
-                            public void initialize(AbstractGoogleClientRequest<?> abstractGoogleClientRequest) throws IOException {
-                                abstractGoogleClientRequest.setDisableGZipContent(true);
-                            }
-                        });
-                // end options for devappserver
+    @Override
+    protected String doInBackground(Pair<Context, String>... params) {
+        if (myApiService == null) {  // Only do this once
+            MyApi.Builder builder = new MyApi.Builder(AndroidHttp.newCompatibleTransport(),
+                    new AndroidJsonFactory(), null)
+                    // options for running against local devappserver
+                    // - 10.0.2.2 is localhost's IP address in Android emulator
+                    // - turn off compression when running against local devappserver
+                    .setRootUrl("http://10.0.2.2:8080/_ah/api/")
+                    .setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
+                        @Override
+                        public void initialize(AbstractGoogleClientRequest<?> abstractGoogleClientRequest) throws IOException {
+                            abstractGoogleClientRequest.setDisableGZipContent(true);
+                        }
+                    });
+            // end options for devappserver
 
-                myApiService = builder.build();
-            }
-
-            context = params[0].first;
-
-            myBean = new MyBean();
-            JokesClass jokesJavaClass = new JokesClass();
-            String name = jokesJavaClass.randomJokesToPass();
-
-            try {
-                return myApiService.sayHi(name).execute().getData();
-            } catch (IOException e) {
-                return e.getMessage();
-            }
+            myApiService = builder.build();
         }
 
-        @Override
-        protected void onPostExecute(String result) {
+        contexT = params[0].first;
 
-            Log.e("StringApi", result);
-            progressBar.setVisibility(View.INVISIBLE);
+        myBean = new MyBean();
+        JokesClass jokesJavaClass = new JokesClass();
+        String name = jokesJavaClass.randomJokesToPass();
 
-            //
-            Intent intent = new Intent(MainActivity.this, AndroidLibraryMainActivity.class);
-            intent.putExtra(JOKE_FROM_JAVA, result);
-            startActivity(intent);
+        try {
+            return myApiService.sayHi(name).execute().getData();
+        } catch (IOException e) {
+            return e.getMessage();
         }
     }
 
+    @Override
+    protected void onPostExecute(String result) {
+
+        Log.e("StringApi", result);
+        /*progressBar.setVisibility(View.INVISIBLE);*/
+
+        //
+        Intent intent = new Intent(contexT, AndroidLibraryMainActivity.class);
+        intent.putExtra(JOKE_FROM_JAVA, result);
+        contexT.startActivity(intent);
+    }
 }

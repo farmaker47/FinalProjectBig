@@ -80,6 +80,7 @@ public class MainActivityFragment extends Fragment {
 
                 MainActivity mainActivity = (MainActivity)getActivity();
                 mainActivity.tellJoke();
+                progressBar.setVisibility(View.VISIBLE);
                 //load new ad
                 mInterstitialAd.loadAd(new AdRequest.Builder().build());
             }
