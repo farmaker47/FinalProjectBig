@@ -1,6 +1,7 @@
 package com.udacity.gradle.builditbigger;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
@@ -28,13 +30,14 @@ public class MainActivityFragment extends Fragment {
     //from https://developers.google.com/admob/android/interstitial
     private InterstitialAd mInterstitialAd;
     private Button buttonForJoke;
-    private OnFragmentADSInteractionListener mListener;
     private static final String ADS_LISTENER = "ads_listener";
+    private ProgressBar progressBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_main, container, false);
+        progressBar = root.findViewById(R.id.progressBar);
         buttonForJoke = root.findViewById(R.id.buttonForJoke);
 
         MobileAds.initialize(getActivity(),
@@ -59,8 +62,14 @@ public class MainActivityFragment extends Fragment {
             public void onClick(View view) {
                 if (mInterstitialAd.isLoaded()) {
                     mInterstitialAd.show();
+                    progressBar.setVisibility(View.VISIBLE);
                 } else {
                     Log.e("TAG", "The interstitial wasn't loaded yet.");
+
+                    MainActivity mainActivity = (MainActivity)getActivity();
+                    mainActivity.tellJoke();
+                    //load new ad
+                    mInterstitialAd.loadAd(new AdRequest.Builder().build());
                 }
             }
         });
@@ -68,42 +77,15 @@ public class MainActivityFragment extends Fragment {
         mInterstitialAd.setAdListener(new AdListener(){
             @Override
             public void onAdClosed() {
-                mListener.onFragmentInteraction(ADS_LISTENER);
+
+                MainActivity mainActivity = (MainActivity)getActivity();
+                mainActivity.tellJoke();
+                //load new ad
+                mInterstitialAd.loadAd(new AdRequest.Builder().build());
             }
         });
-
 
         return root;
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentADSInteractionListener) {
-            mListener = (OnFragmentADSInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentADSInteractionListener {
-        void onFragmentInteraction(String string);
-    }
 }
