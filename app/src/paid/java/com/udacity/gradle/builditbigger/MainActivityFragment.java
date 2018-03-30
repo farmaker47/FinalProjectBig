@@ -44,7 +44,6 @@ public class MainActivityFragment extends Fragment {
         Intent intent = new Intent();
         intent.setAction(NUMBER_OF_RECEIVER);
         getActivity().sendBroadcast(intent);
-
     }
 
 }

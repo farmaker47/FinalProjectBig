@@ -205,9 +205,5 @@
     <orderEntry type="library" name="com.google.android.gms:play-services-gass-11.8.0" level="project" />
     <orderEntry type="module" module-name="androidlibraryforjokes" />
     <orderEntry type="module" module-name="JavaLibraryForJokes" />
-    <orderEntry type="module" module-name="androidlibraryforjokes" />
-    <orderEntry type="module" module-name="JavaLibraryForJokes" />
-    <orderEntry type="module" module-name="androidlibraryforjokes" />
-    <orderEntry type="module" module-name="JavaLibraryForJokes" />
   </component>
 </module>

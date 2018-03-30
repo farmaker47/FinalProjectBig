@@ -14,7 +14,7 @@ android {
     compileSdkVersion 26
     buildToolsVersion "26.0.3"
 
-    flavorDimensions "production"
+    flavorDimensions "default"
 
     defaultConfig {
         applicationId "com.udacity.gradle.builditbigger"
@@ -36,11 +36,11 @@ android {
 
     productFlavors {
         free {
-            dimension "production"
+            dimension "default"
             applicationId 'com.udacity.gradle.builditbigger.free'
         }
         paid {
-            dimension "production"
+            dimension "default"
             applicationId 'com.udacity.gradle.builditbigger.paid'
         }
     }

@@ -29,7 +29,6 @@ import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String ADS_LISTENER = "ads_listener";
     private static final String NUMBER_OF_RECEIVER = "close_adv_tell_joke";
     private BroadcastReceiver mBroadcastReceiver;
     private IntentFilter mFilter;
@@ -45,8 +44,6 @@ public class MainActivity extends AppCompatActivity {
         mFilter.addAction(NUMBER_OF_RECEIVER);
 
         progressBar = findViewById(R.id.progressBar);
-
-        /*new EndpointsAsyncTask(this," ").execute(new Pair<Context, String>(this, " "));*/
     }
 
     @Override
@@ -61,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         registerReceiver(mBroadcastReceiver, mFilter);
-
     }
 
     //receive from paid flavor
@@ -72,7 +68,6 @@ public class MainActivity extends AppCompatActivity {
             String actionGet = intent.getAction();
             if (actionGet.equals(NUMBER_OF_RECEIVER)) {
                 tellJoke();
-                Log.e("IntentFree", "Received");
             }
         }
     }
@@ -101,10 +96,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void tellJoke() {
-
         new EndpointsAsyncTask(this).execute();
-        Log.e("call","call");
-
     }
 
 }
@@ -114,6 +106,7 @@ class EndpointsAsyncTask extends AsyncTask<String, Void, String> {
     private Context contexT;
     private MyBean myBean;
     public static final String JOKE_FROM_JAVA = "joke_from_java";
+
     public EndpointsAsyncTask(Context context) {
         contexT = context;
     }
@@ -126,7 +119,7 @@ class EndpointsAsyncTask extends AsyncTask<String, Void, String> {
                     // options for running against local devappserver
                     // - 10.0.2.2 is localhost's IP address in Android emulator
                     // - turn off compression when running against local devappserver
-                    .setRootUrl("http://10.0.2.2:8080/_ah/api/")
+                    .setRootUrl(contexT.getString(R.string.apiUrl))
                     .setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
                         @Override
                         public void initialize(AbstractGoogleClientRequest<?> abstractGoogleClientRequest) throws IOException {
@@ -151,11 +144,6 @@ class EndpointsAsyncTask extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String result) {
-
-        Log.e("StringApi", result);
-        /*progressBar.setVisibility(View.INVISIBLE);*/
-
-        //
         Intent intent = new Intent(contexT, AndroidLibraryMainActivity.class);
         intent.putExtra(JOKE_FROM_JAVA, result);
         contexT.startActivity(intent);
