@@ -19,7 +19,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static junit.framework.Assert.assertNotNull;
 import static org.hamcrest.core.AllOf.allOf;
 
-
 /**
  * Created by farmaker1 on 30/03/2018.
  */

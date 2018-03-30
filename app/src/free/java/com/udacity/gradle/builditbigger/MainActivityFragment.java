@@ -30,8 +30,8 @@ public class MainActivityFragment extends Fragment {
     //from https://developers.google.com/admob/android/interstitial
     private InterstitialAd mInterstitialAd;
     private Button buttonForJoke;
-    private static final String ADS_LISTENER = "ads_listener";
     private ProgressBar progressBar;
+    private static final String TAG = MainActivityFragment.class.getSimpleName();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,7 +41,7 @@ public class MainActivityFragment extends Fragment {
         buttonForJoke = root.findViewById(R.id.buttonForJoke);
 
         MobileAds.initialize(getActivity(),
-                "ca-app-pub-3940256099942544~3347511713");
+                getString(R.string.initializeADS));
 
         AdView mAdView = (AdView) root.findViewById(R.id.adView);
         // Create an ad request. Check logcat output for the hashed device ID to
@@ -53,7 +53,7 @@ public class MainActivityFragment extends Fragment {
         mAdView.loadAd(adRequest);
 
         mInterstitialAd = new InterstitialAd(getActivity());
-        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+        mInterstitialAd.setAdUnitId(getString(R.string.adUnit));
 
         mInterstitialAd.loadAd(new AdRequest.Builder().build());
 
@@ -64,7 +64,7 @@ public class MainActivityFragment extends Fragment {
                     mInterstitialAd.show();
                     progressBar.setVisibility(View.VISIBLE);
                 } else {
-                    Log.e("TAG", "The interstitial wasn't loaded yet.");
+                    Log.e(TAG, getString(R.string.notLoadedYet));
 
                     MainActivity mainActivity = (MainActivity)getActivity();
                     mainActivity.tellJoke();

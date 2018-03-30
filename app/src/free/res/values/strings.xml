@@ -2,4 +2,7 @@
 <resources>
 
     <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="initializeADS">ca-app-pub-3940256099942544~3347511713</string>
+    <string name="notLoadedYet">The interstitial wasn\'t loaded yet.</string>
+    <string name="adUnit">ca-app-pub-3940256099942544/1033173712</string>
 </resources>

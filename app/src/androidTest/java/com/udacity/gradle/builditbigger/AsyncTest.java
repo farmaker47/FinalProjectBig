@@ -16,7 +16,9 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static junit.framework.Assert.assertNotNull;
 
-
+/**
+ * Created by farmaker1 on 30/03/2018.
+ */
 @RunWith(AndroidJUnit4.class)
 public class AsyncTest {
     @Rule
