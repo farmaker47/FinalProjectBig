@@ -25,6 +25,8 @@ public class AsyncTest {
     @Test
     public void emptyString() throws ExecutionException, InterruptedException {
 
+        Thread.sleep(3000);
+
         onView(withId(R.id.buttonForJoke)).check(matches((isDisplayed())));
         onView(withId(R.id.buttonForJoke)).perform(click());
 
