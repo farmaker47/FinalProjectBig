@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -25,6 +26,7 @@ public class AndroidLibraryMainActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent.hasExtra(JOKE_FROM_JAVA)) {
             incomingJoke = intent.getStringExtra(JOKE_FROM_JAVA);
+            Log.e("StringApi", incomingJoke);
         }
 
         androidText.setText(incomingJoke);

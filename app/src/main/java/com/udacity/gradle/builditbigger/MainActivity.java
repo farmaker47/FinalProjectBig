@@ -45,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
         mFilter.addAction(NUMBER_OF_RECEIVER);
 
         progressBar = findViewById(R.id.progressBar);
+
+        /*new EndpointsAsyncTask(this," ").execute(new Pair<Context, String>(this, " "));*/
     }
 
     @Override
@@ -100,24 +102,24 @@ public class MainActivity extends AppCompatActivity {
 
     public void tellJoke() {
 
-        new EndpointsAsyncTask(this," ").execute(new Pair<Context, String>(this, " "));
+        new EndpointsAsyncTask(this).execute();
         Log.e("call","call");
 
     }
 
 }
 
-class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, String> {
+class EndpointsAsyncTask extends AsyncTask<String, Void, String> {
     private MyApi myApiService = null;
     private Context contexT;
     private MyBean myBean;
     public static final String JOKE_FROM_JAVA = "joke_from_java";
-    public EndpointsAsyncTask(Context context,String string) {
+    public EndpointsAsyncTask(Context context) {
         contexT = context;
     }
 
     @Override
-    protected String doInBackground(Pair<Context, String>... params) {
+    protected String doInBackground(String... params) {
         if (myApiService == null) {  // Only do this once
             MyApi.Builder builder = new MyApi.Builder(AndroidHttp.newCompatibleTransport(),
                     new AndroidJsonFactory(), null)
@@ -135,8 +137,6 @@ class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, String> 
 
             myApiService = builder.build();
         }
-
-        contexT = params[0].first;
 
         myBean = new MyBean();
         JokesClass jokesJavaClass = new JokesClass();
