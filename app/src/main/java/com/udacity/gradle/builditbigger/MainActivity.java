@@ -103,12 +103,12 @@ public class MainActivity extends AppCompatActivity {
 
 class EndpointsAsyncTask extends AsyncTask<String, Void, String> {
     private MyApi myApiService = null;
-    private Context contexT;
+    private Context mContext;
     private MyBean myBean;
     public static final String JOKE_FROM_JAVA = "joke_from_java";
 
     public EndpointsAsyncTask(Context context) {
-        contexT = context;
+        mContext = context;
     }
 
     @Override
@@ -119,7 +119,7 @@ class EndpointsAsyncTask extends AsyncTask<String, Void, String> {
                     // options for running against local devappserver
                     // - 10.0.2.2 is localhost's IP address in Android emulator
                     // - turn off compression when running against local devappserver
-                    .setRootUrl(contexT.getString(R.string.apiUrl))
+                    .setRootUrl(mContext.getString(R.string.apiUrl))
                     .setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
                         @Override
                         public void initialize(AbstractGoogleClientRequest<?> abstractGoogleClientRequest) throws IOException {
@@ -144,8 +144,8 @@ class EndpointsAsyncTask extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String result) {
-        Intent intent = new Intent(contexT, AndroidLibraryMainActivity.class);
+        Intent intent = new Intent(mContext, AndroidLibraryMainActivity.class);
         intent.putExtra(JOKE_FROM_JAVA, result);
-        contexT.startActivity(intent);
+        mContext.startActivity(intent);
     }
 }

@@ -2,4 +2,5 @@
     <string name="app_name">androidlibraryforjokes</string>
     <string name="title_activity_android_library_main">AndroidLibraryMainActivity</string>
     <string name="jokesTitle">Jokes</string>
+    <string name="noJoke">Sorry no jokes today</string>
 </resources>

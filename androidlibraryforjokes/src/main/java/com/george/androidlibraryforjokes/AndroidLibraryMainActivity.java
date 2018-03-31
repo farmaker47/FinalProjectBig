@@ -6,6 +6,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class AndroidLibraryMainActivity extends AppCompatActivity {
 
@@ -23,6 +24,8 @@ public class AndroidLibraryMainActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent.hasExtra(JOKE_FROM_JAVA)) {
             incomingJoke = intent.getStringExtra(JOKE_FROM_JAVA);
+        }else{
+            Toast.makeText(this, R.string.noJoke,Toast.LENGTH_LONG).show();
         }
 
         androidText.setText(incomingJoke);
