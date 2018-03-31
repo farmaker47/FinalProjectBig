@@ -17,12 +17,12 @@
             android:id="@+id/androidTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_margin="@dimen/textJokeMargin"
             android:textSize="20sp" />
 
         <ImageView
-            android:layout_width="300dp"
-            android:layout_height="300dp"
+            android:layout_width="@dimen/imageWidth"
+            android:layout_height="@dimen/imageHeight"
             android:layout_gravity="center_horizontal"
             android:src="@drawable/mose" />
     </LinearLayout>
