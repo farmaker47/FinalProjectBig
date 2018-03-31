@@ -6,23 +6,18 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.george.androidlibraryforjokes.AndroidLibraryMainActivity;
-import com.george.javalibraryforjokes.JokesClass;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
 import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
 import com.udacity.gradle.builditbigger.backend.myApi.MyApi;
-import com.udacity.gradle.builditbigger.backend.myApi.model.MyBean;
 
 import java.io.IOException;
 
@@ -104,7 +99,6 @@ public class MainActivity extends AppCompatActivity {
 class EndpointsAsyncTask extends AsyncTask<String, Void, String> {
     private MyApi myApiService = null;
     private Context mContext;
-    private MyBean myBean;
     public static final String JOKE_FROM_JAVA = "joke_from_java";
 
     public EndpointsAsyncTask(Context context) {
@@ -127,16 +121,10 @@ class EndpointsAsyncTask extends AsyncTask<String, Void, String> {
                         }
                     });
             // end options for devappserver
-
             myApiService = builder.build();
         }
-
-        myBean = new MyBean();
-        JokesClass jokesJavaClass = new JokesClass();
-        String name = jokesJavaClass.randomJokesToPass();
-
         try {
-            return myApiService.sayHi(name).execute().getData();
+            return myApiService.getGoodJoke().execute().getDataJoke();
         } catch (IOException e) {
             return e.getMessage();
         }
